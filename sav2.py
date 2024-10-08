@@ -1,26 +1,32 @@
 import pygame
 import numpy as np
 
+# Set screen window & constraints
 WIDTH = 800
 HEIGHT = 600
 BAR_WIDTH = 5
 FPS = 60
 
+# Initialize screen
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("SAV - Sorting Algorithm Visualizer")
 
+# Randomly populate n array
 def generate_arr(size):
     return [np.random.randint(10, HEIGHT) for _ in range(size)]
     
+# Draw each rectangle on screen
 def draw_arr(arr):
     screen.fill((0, 0, 0))
     for i, val in enumerate(arr):
         pygame.draw.rect(screen, (255, 0, 0), (i * BAR_WIDTH, HEIGHT - val, BAR_WIDTH, val))
     pygame.display.flip()
     
+# Bubble sort
 def bubble_sort(arr):
     n = len(arr)
+    
     for i in range(n):
         for j in range(0, n-i-1):
             if arr[j] > arr[j+1]:
@@ -29,8 +35,10 @@ def bubble_sort(arr):
                 pygame.time.delay(10)
                 yield
              
+# Insertion sort
 def insertion_sort(arr):
     n = len(arr)
+    
     for i in range(n):
         key = arr[i]
         j = i-1
@@ -45,8 +53,10 @@ def insertion_sort(arr):
         pygame.time.delay(10)
         yield
 
+# Selection sort
 def selection_sort(arr):
     n = len(arr)
+    
     for i in range(n):
         min_idx = i
         for j in range(i+1, n):
@@ -57,13 +67,15 @@ def selection_sort(arr):
         pygame.time.delay(10)
         yield
   
+# Main
 def main():
     running = True
     clock = pygame.time.Clock()
     size = WIDTH // BAR_WIDTH
     arr = generate_arr(size)
-    alg = "selection"
+    alg = "bubble" # Default sorting alg
     
+    # Check for command inputs
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -84,6 +96,7 @@ def main():
                 
         draw_arr(arr)
         
+        # Changes the sorting alg for the next run
         if alg == "bubble":
             sorter = bubble_sort(arr)
         elif alg == "insertion":
